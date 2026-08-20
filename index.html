@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Piano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #2a2a2a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: #333333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        h1 {
+            color: #cccccc;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .piano {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .key-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .key {
+            min-width: 50px;
+            flex: 0 1 calc(10% - 6px);
+            height: 60px;
+            background: linear-gradient(145deg, #f5f5f5, #e8e8e8);
+            border: 1px solid #999;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.05s ease;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            padding: 5px;
+        }
+
+        .key .letter {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .key .note {
+            font-size: 10px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        .key:hover {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            transform: translateY(-1px);
+        }
+
+        .key.active {
+            background: linear-gradient(145deg, #d0d0d0, #c0c0c0);
+            color: #222;
+            transform: translateY(2px);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-color: #777;
+        }
+
+        .info {
+            color: #888;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        /* Tablet (600px to 1024px) */
+        @media (min-width: 600px) {
+            .key {
+                height: 70px;
+                min-width: 60px;
+            }
+
+            .key .letter {
+                font-size: 20px;
+            }
+
+            .key .note {
+                font-size: 11px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .container {
+                padding: 25px;
+            }
+        }
+
+        /* Desktop (1024px and above) */
+        @media (min-width: 1024px) {
+            .key {
+                height: 80px;
+                min-width: 70px;
+            }
+
+            .key .letter {
+                font-size: 22px;
+            }
+
+            .key .note {
+                font-size: 12px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 30px;
+            }
+
+            .key-row {
+                gap: 8px;
+            }
+
+            .piano {
+                gap: 12px;
+            }
+        }
+
+        /* Mobile (under 600px) */
+        @media (max-width: 599px) {
+            .key {
+                height: 50px;
+                min-width: 45px;
+            }
+
+            .key .letter {
+                font-size: 14px;
+            }
+
+            .key .note {
+                font-size: 8px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            .info {
+                font-size: 11px;
+            }
+        }
+
+        /* Mobile Landscape */
+        @media (max-width: 599px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 10px;
+                max-height: 95vh;
+                overflow-y: auto;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .piano {
+                gap: 5px;
+            }
+
+            .key-row {
+                gap: 4px;
+            }
+
+            .key {
+                height: 45px;
+                min-width: 40px;
+                padding: 2px;
+            }
+
+            .key .letter {
+                font-size: 12px;
+            }
+
+            .key .note {
+                font-size: 7px;
+                margin-top: 1px;
+            }
+
+            .info {
+                font-size: 10px;
+                margin-top: 10px;
+            }
+        }
+
+        /* Tablet Landscape (600px to 1024px) and landscape */
+        @media (min-width: 600px) and (max-width: 1024px) and (orientation: landscape) {
+            .key {
+                height: 65px;
+                min-width: 55px;
+            }
+
+            .key .letter {
+                font-size: 18px;
+            }
+
+            .key .note {
+                font-size: 10px;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .piano {
+                gap: 8px;
+            }
+
+            .key-row {
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Keyboard Piano</h1>
+        <div class="piano">
+            <div class="key-row">
+                <div class="key" data-key="q" data-frequency="261.63"><span class="letter">Q</span><span class="note">C4</span></div>
+                <div class="key" data-key="w" data-frequency="293.66"><span class="letter">W</span><span class="note">D4</span></div>
+                <div class="key" data-key="e" data-frequency="329.63"><span class="letter">E</span><span class="note">E4</span></div>
+                <div class="key" data-key="r" data-frequency="349.23"><span class="letter">R</span><span class="note">F4</span></div>
+                <div class="key" data-key="t" data-frequency="392.00"><span class="letter">T</span><span class="note">G4</span></div>
+                <div class="key" data-key="y" data-frequency="440.00"><span class="letter">Y</span><span class="note">A4</span></div>
+                <div class="key" data-key="u" data-frequency="493.88"><span class="letter">U</span><span class="note">B4</span></div>
+                <div class="key" data-key="i" data-frequency="523.25"><span class="letter">I</span><span class="note">C5</span></div>
+                <div class="key" data-key="o" data-frequency="587.33"><span class="letter">O</span><span class="note">D5</span></div>
+                <div class="key" data-key="p" data-frequency="659.25"><span class="letter">P</span><span class="note">E5</span></div>
+            </div>
+            <div class="key-row">
+                <div class="key" data-key="a" data-frequency="130.81"><span class="letter">A</span><span class="note">C3</span></div>
+                <div class="key" data-key="s" data-frequency="146.83"><span class="letter">S</span><span class="note">D3</span></div>
+                <div class="key" data-key="d" data-frequency="164.81"><span class="letter">D</span><span class="note">E3</span></div>
+                <div class="key" data-key="f" data-frequency="174.61"><span class="letter">F</span><span class="note">F3</span></div>
+                <div class="key" data-key="g" data-frequency="196.00"><span class="letter">G</span><span class="note">G3</span></div>
+                <div class="key" data-key="h" data-frequency="220.00"><span class="letter">H</span><span class="note">A3</span></div>
+                <div class="key" data-key="j" data-frequency="246.94"><span class="letter">J</span><span class="note">B3</span></div>
+                <div class="key" data-key="k" data-frequency="261.63"><span class="letter">K</span><span class="note">C4</span></div>
+                <div class="key" data-key="l" data-frequency="293.66"><span class="letter">L</span><span class="note">D4</span></div>
+            </div>
+            <div class="key-row">
+                <div class="key" data-key="z" data-frequency="65.41"><span class="letter">Z</span><span class="note">C2</span></div>
+                <div class="key" data-key="x" data-frequency="73.42"><span class="letter">X</span><span class="note">D2</span></div>
+                <div class="key" data-key="c" data-frequency="82.41"><span class="letter">C</span><span class="note">E2</span></div>
+                <div class="key" data-key="v" data-frequency="87.31"><span class="letter">V</span><span class="note">F2</span></div>
+                <div class="key" data-key="b" data-frequency="98.00"><span class="letter">B</span><span class="note">G2</span></div>
+                <div class="key" data-key="n" data-frequency="110.00"><span class="letter">N</span><span class="note">A2</span></div>
+                <div class="key" data-key="m" data-frequency="123.47"><span class="letter">M</span><span class="note">B2</span></div>
+            </div>
+        </div>
+        <div class="info">
+            💡 Press keys on your keyboard to play notes
+        </div>
+    </div>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const keys = document.querySelectorAll('.key');
+        const activeOscillators = new Map();
+
+        function playNote(frequency, keyElement) {
+            // Create oscillator and gain
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            // Set oscillator properties
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'triangle'; // Can be 'sine', 'square', 'sawtooth', 'triangle'
+
+            // Connect the audio graph
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            // Set gain envelope (attack, decay, sustain, release)
+            gain.gain.setValueAtTime(0, audioContext.currentTime);
+            gain.gain.linearRampToValueAtTime(0.7, audioContext.currentTime + 0.05); // Quick attack
+            
+            // Start the oscillator
+            oscillator.start(audioContext.currentTime);
+
+            // Store the oscillator and gain so we can stop it later
+            const keyCode = keyElement.dataset.key;
+            
+            // Stop any existing oscillator for this key
+            if (activeOscillators.has(keyCode)) {
+                const { osc, g } = activeOscillators.get(keyCode);
+                g.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                osc.stop(audioContext.currentTime + 0.2);
+            }
+
+            activeOscillators.set(keyCode, { osc: oscillator, g: gain });
+
+            // Add visual feedback
+            keyElement.classList.add('active');
+
+            // Store the release function
+            return {
+                stop: function() {
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                    keyElement.classList.remove('active');
+                    activeOscillators.delete(keyCode);
+                }
+            };
+        }
+
+        // Create a map to track which notes are currently playing
+        const playingNotes = new Map();
+
+        // Handle key down
+        document.addEventListener('keydown', function(event) {
+            const key = event.key.toLowerCase();
+            const keyElement = document.querySelector(`.key[data-key="${key}"]`);
+
+            if (keyElement && !playingNotes.has(key)) {
+                event.preventDefault();
+                const frequency = parseFloat(keyElement.dataset.frequency);
+                const notePlayer = playNote(frequency, keyElement);
+                playingNotes.set(key, notePlayer);
+            }
+        });
+
+        // Handle key up
+        document.addEventListener('keyup', function(event) {
+            const key = event.key.toLowerCase();
+            
+            if (playingNotes.has(key)) {
+                event.preventDefault();
+                const notePlayer = playingNotes.get(key);
+                notePlayer.stop();
+                playingNotes.delete(key);
+            }
+        });
+
+        // Also handle mouse clicks for testing
+        keys.forEach(key => {
+            key.addEventListener('mousedown', function() {
+                const keyCode = this.dataset.key;
+                if (!playingNotes.has(keyCode)) {
+                    const frequency = parseFloat(this.dataset.frequency);
+                    const notePlayer = playNote(frequency, this);
+                    playingNotes.set(keyCode, notePlayer);
+                }
+            });
+
+            key.addEventListener('mouseup', function() {
+                const keyCode = this.dataset.key;
+                if (playingNotes.has(keyCode)) {
+                    const notePlayer = playingNotes.get(keyCode);
+                    notePlayer.stop();
+                    playingNotes.delete(keyCode);
+                }
+            });
+
+            key.addEventListener('mouseleave', function() {
+                const keyCode = this.dataset.key;
+                if (playingNotes.has(keyCode)) {
+                    const notePlayer = playingNotes.get(keyCode);
+                    notePlayer.stop();
+                    playingNotes.delete(keyCode);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
